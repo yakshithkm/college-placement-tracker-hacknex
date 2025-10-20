@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard | College Placement Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Welcome, {{ user }}!</h2>
+    <h3>Overall Readiness: {{ readiness }}%</h3>
+    <canvas id="readinessChart" width="300" height="300"></canvas>
+    <p><b>Feedback:</b> {{ feedback }}</p>
+
+    <hr>
+    <h3>Add Aptitude Score</h3>
+    <form method="POST" action="/add_aptitude">
+        <input type="number" name="score" placeholder="Enter score (0-100)" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <h3>Your Aptitude History</h3>
+    <ul>
+        {% for score, date in aptitude_data %}
+        <li>{{ date }} — {{ score }}%</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <h3>Add Certification</h3>
+    <form method="POST" action="/add_certification">
+        <input type="text" name="title" placeholder="Certification Title" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <h3>Your Certifications</h3>
+    <ul>
+        {% for title, date in cert_data %}
+        <li>{{ date }} — {{ title }}</li>
+        {% endfor %}
+    </ul>
+
+    <br><a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<script>
+var ctx = document.getElementById('readinessChart');
+var chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Readiness', 'Remaining'],
+        datasets: [{
+            data: [{{ readiness }}, 100 - {{ readiness }}],
+            backgroundColor: ['#0078d4', '#e0e0e0']
+        }]
+    },
+    options: { cutout: '70%' }
+});
+</script>
+</body>
+</html>
