@@ -1,14 +1,16 @@
-# College Placement Tracker
+# College Placement Tracker 🎓
 
-A web-based platform to track placement readiness using aptitude, certifications, and resume data.
+A Flask-based web application to help students and administrators track placement readiness.
 
-## Features
-- User login and registration
-- Dashboard with readiness visualization
-- Data entry for aptitude and certifications
-- Feedback generation
+## 🚀 Features
+- Student registration and login
+- Resume analysis and scoring
+- Aptitude & certification tracking
+- Real-time readiness calculation
+- Admin dashboard with top performers
+- CSV export and visual insights
 
-## Tech Stack
-- Flask (Python)
-- HTML, CSS, JavaScript
-- SQLite Database
+## 🧰 Tech Stack
+- **Frontend:** HTML, CSS, Chart.js
+- **Backend:** Flask (Python)
+- **Database:** SQLite

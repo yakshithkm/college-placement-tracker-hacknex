@@ -41,3 +41,41 @@ button:hover {
     margin: 20px;
     border-radius: 8px;
 }
+
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+    margin-top: 15px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 600px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #0078d4;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #e6f0ff;
+}
+
+.chart-box canvas {
+  max-width: 600px;
+  max-height: 600px;
+  width: 100%;
+  height: auto;
+}

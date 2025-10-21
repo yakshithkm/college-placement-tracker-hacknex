@@ -1,61 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard | College Placement Tracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | College Placement Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #e0f0ff, #f8fbff);
+      display: flex;
+    }
+    .sidebar {
+      width: 220px;
+      background-color: #0078d4;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .sidebar a:hover {
+      background-color: #005fa3;
+    }
+    .main-content {
+      margin-left: 240px;
+      padding: 20px;
+      width: calc(100% - 240px);
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .chart-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .feedback {
+      background-color: #f0f9ff;
+      border-left: 4px solid #0078d4;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <h2>Welcome, {{ user }}!</h2>
-    <h3>Overall Readiness: {{ readiness }}%</h3>
-    <canvas id="readinessChart" width="300" height="300"></canvas>
-    <p><b>Feedback:</b> {{ feedback }}</p>
+  <div class="sidebar">
+    <h2>Placement Tracker</h2>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="#aptitude">Aptitude</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#resume">Resume</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
 
-    <hr>
-    <h3>Add Aptitude Score</h3>
-    <form method="POST" action="/add_aptitude">
+  <div class="main-content">
+    <div class="card">
+      <h2>Welcome, {{ user }} 👋</h2>
+      <p>Overall Readiness: <b>{{ readiness }}%</b></p>
+      <div class="chart-box">
+        <canvas id="readinessChart" width="350" height="350"></canvas>
+      </div>
+      <p class="feedback">{{ feedback }}</p>
+    </div>
+
+    <div class="card" id="aptitude">
+      <h3>Add Aptitude Score</h3>
+      <form method="POST" action="/add_aptitude">
         <input type="number" name="score" placeholder="Enter score (0-100)" required>
         <button type="submit">Add</button>
-    </form>
-
-    <h3>Your Aptitude History</h3>
-    <ul>
+      </form>
+      <h4>Your Aptitude History</h4>
+      <ul>
         {% for score, date in aptitude_data %}
         <li>{{ date }} — {{ score }}%</li>
         {% endfor %}
-    </ul>
+      </ul>
+    </div>
 
-    <hr>
-    <h3>Add Certification</h3>
-    <form method="POST" action="/add_certification">
+    <div class="card" id="certifications">
+      <h3>Add Certification</h3>
+      <form method="POST" action="/add_certification">
         <input type="text" name="title" placeholder="Certification Title" required>
         <button type="submit">Add</button>
-    </form>
-
-    <h3>Your Certifications</h3>
-    <ul>
+      </form>
+      <h4>Your Certifications</h4>
+      <ul>
         {% for title, date in cert_data %}
         <li>{{ date }} — {{ title }}</li>
         {% endfor %}
-    </ul>
+      </ul>
+    </div>
 
-    <br><a href="{{ url_for('logout') }}">Logout</a>
-</div>
+    <div class="card" id="resume">
+      <h3>Upload Resume</h3>
+      <form method="POST" action="/upload_resume" enctype="multipart/form-data">
+        <input type="file" name="resume" accept=".pdf,.docx" required>
+        <button type="submit">Upload</button>
+      </form>
+      <h4>Resume Scores</h4>
+      <ul>
+        {% for score in resume_data %}
+        <li>Score: {{ score[0] }}%</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-<script>
-var ctx = document.getElementById('readinessChart');
-var chart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
+  <script>
+    const ctx = document.getElementById('readinessChart');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
         labels: ['Readiness', 'Remaining'],
         datasets: [{
-            data: [{{ readiness }}, 100 - {{ readiness }}],
-            backgroundColor: ['#0078d4', '#e0e0e0']
+          data: [{{ readiness }}, 100 - {{ readiness }}],
+          backgroundColor: ['#0078d4', '#e0e0e0']
         }]
-    },
-    options: { cutout: '70%' }
-});
-</script>
+      },
+      options: {
+        cutout: '70%',
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+  </script>
 </body>
 </html>
