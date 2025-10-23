@@ -1,112 +1,76 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Admin Dashboard | College Placement Tracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        .table-container {
-            overflow-x: auto;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            min-width: 700px;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-
-        th {
-            background-color: #0078d4;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #e6f0ff;
-        }
-
-        .search-box {
-            margin: 10px 0;
-        }
-
-        .top-box {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-    </style>
-    <script>
-        function searchTable() {
-            const filter = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.querySelectorAll('#studentTable tbody tr');
-            rows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(filter) ? '' : 'none';
-            });
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | College Placement Tracker</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+<body class="admin-body">
+  <header class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <nav>
+      <a href="{{ url_for('admin_logout') }}">Logout</a>
+    </nav>
+  </header>
 
-<body>
-    <div class="container">
-        <h2>Admin Dashboard</h2>
-        <a href="{{ url_for('admin_logout') }}">Logout</a>
-        <hr>
+  <main class="admin-main">
+    <section class="top-box">
+      <h2>Top Performers</h2>
+      <ol>
+        {% for name, email, resume, aptitude, certs, total in top_performers %}
+          <li><b>{{ name }}</b> — {{ total }}%</li>
+        {% endfor %}
+      </ol>
+    </section>
 
-        <div class="top-box">
-            <h3>Top Performers</h3>
-            <ol>
-                {% for name, email, resume, aptitude, certs, total in top_performers %}
-                <li><b>{{ name }}</b> — {{ total }}%</li>
-                {% endfor %}
-            </ol>
-        </div>
+    <section class="controls">
+      <input type="text" id="searchInput" placeholder="Search by name or email..." onkeyup="searchTable()">
+      <a href="{{ url_for('export_csv') }}"><button>Export CSV</button></a>
+    </section>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search by name or email…" onkeyup="searchTable()">
-            <a href="{{ url_for('export_csv') }}"><button>Export CSV</button></a>
-        </div>
+    <section class="table-container">
+      <table id="studentTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Resume Score</th>
+            <th>Aptitude Score</th>
+            <th>Certifications</th>
+            <th>Total Readiness</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for name, email, resume, aptitude, certs, total in all_data %}
+          <tr>
+            <td>{{ name }}</td>
+            <td>{{ email }}</td>
+            <td>{{ resume }}%</td>
+            <td>{{ aptitude }}%</td>
+            <td>{{ certs }}</td>
+            <td><b>{{ total }}%</b></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
 
-        <div class="table-container">
-            <table id="studentTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Resume Score</th>
-                        <th>Aptitude Score</th>
-                        <th>Certifications</th>
-                        <th>Total Readiness</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for name, email, resume, aptitude, certs, total in all_data %}
-                    <tr>
-                        <td>{{ name }}</td>
-                        <td>{{ email }}</td>
-                        <td>{{ resume }}%</td>
-                        <td>{{ aptitude }}%</td>
-                        <td>{{ certs }}</td>
-                        <td><b>{{ total }}%</b></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+  <footer class="admin-footer fixed-footer">
+    <p>© 2025 College Placement Tracker - HackHaven. All rights reserved</p>
+  </footer>
+
+  <script>
+    function searchTable() {
+      const filter = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#studentTable tbody tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? '' : 'none';
+      });
+    }
+  </script>
 </body>
-
 </html>

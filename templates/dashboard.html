@@ -4,69 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | College Placement Tracker</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #e0f0ff, #f8fbff);
-      display: flex;
-    }
-    .sidebar {
-      width: 220px;
-      background-color: #0078d4;
-      color: white;
-      height: 100vh;
-      padding: 20px;
-      position: fixed;
-      top: 0; left: 0;
-      display: flex;
-      flex-direction: column;
-    }
-    .sidebar h2 {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .sidebar a {
-      color: white;
-      text-decoration: none;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
-    .sidebar a:hover {
-      background-color: #005fa3;
-    }
-    .main-content {
-      margin-left: 240px;
-      padding: 20px;
-      width: calc(100% - 240px);
-    }
-    .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .chart-box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .feedback {
-      background-color: #f0f9ff;
-      border-left: 4px solid #0078d4;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-weight: 500;
-    }
-  </style>
 </head>
 <body>
-  <div class="sidebar">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
     <h2>Placement Tracker</h2>
     <a href="{{ url_for('dashboard') }}">Dashboard</a>
     <a href="#aptitude">Aptitude</a>
@@ -75,12 +19,16 @@
     <a href="{{ url_for('logout') }}">Logout</a>
   </div>
 
-  <div class="main-content">
+  <!-- Sidebar Toggle Button -->
+  <button class="toggle-btn" id="toggleBtn">☰</button>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
     <div class="card">
       <h2>Welcome, {{ user }} 👋</h2>
       <p>Overall Readiness: <b>{{ readiness }}%</b></p>
       <div class="chart-box">
-        <canvas id="readinessChart" width="350" height="350"></canvas>
+        <canvas id="readinessChart" width="600" height="600"></canvas>
       </div>
       <p class="feedback">{{ feedback }}</p>
     </div>
@@ -129,6 +77,7 @@
   </div>
 
   <script>
+    // Chart
     const ctx = document.getElementById('readinessChart');
     new Chart(ctx, {
       type: 'doughnut',
@@ -143,6 +92,16 @@
         cutout: '70%',
         plugins: { legend: { position: 'bottom' } }
       }
+    });
+
+    // Sidebar Toggle
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      mainContent.classList.toggle('sidebar-open');
     });
   </script>
 </body>

@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.security import generate_password_hash, check_password_hash
 import PyPDF2
 import docx
 import os
@@ -8,6 +9,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'placement_secret_key'
+from datetime import timedelta
+app.permanent_session_lifetime = timedelta(minutes=30)
 
 # ---------- Resume Upload ----------
 UPLOAD_FOLDER = "uploads"
@@ -110,17 +113,23 @@ def home():
     return redirect(url_for('login'))
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
-        password = request.form['password']
+        password = generate_password_hash(request.form['password'])
 
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
         try:
-            c.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, password))
+            c.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+                    (name, email, password))
             conn.commit()
             return redirect(url_for('login'))
         except:
@@ -138,16 +147,18 @@ def login():
 
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
-        c.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
+        c.execute("SELECT * FROM users WHERE email=?", (email,))
         user = c.fetchone()
         conn.close()
 
-        if user:
+        if user and check_password_hash(user[3], password):
             session['user_id'] = user[0]
             session['user_name'] = user[1]
+            session.permanent = True
             return redirect(url_for('dashboard'))
         else:
             return "Invalid credentials!"
+
     return render_template('login.html')
 
 
@@ -210,17 +221,26 @@ def add_certification():
     return redirect(url_for('dashboard'))
 
 
+ALLOWED_EXTENSIONS = {'pdf', 'docx'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/upload_resume', methods=['POST'])
 def upload_resume():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-
     file = request.files['resume']
-    if file.filename == "":
+    if not file or file.filename == "":
         return "No file selected"
-
+    if not allowed_file(file.filename):
+        return "Invalid file type. Only PDF and DOCX allowed."
+    if len(file.read()) > 5 * 1024 * 1024:  # 5 MB limit
+        return "File too large (max 5 MB)."
+    file.seek(0)  # reset pointer before saving
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(filepath)
+
 
     text = extract_text_from_file(filepath)
     score, matched_skills = calculate_resume_score(text)

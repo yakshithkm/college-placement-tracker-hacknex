@@ -5,3 +5,4 @@ database.db
 *.pyc
 *.pyo
 .env
+student_readiness_report.csv

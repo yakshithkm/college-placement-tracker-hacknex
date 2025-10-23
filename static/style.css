@@ -1,81 +1,430 @@
+/* --------- Global Styles --------- */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f4f8;
-    text-align: center;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f9ff;
+  color: #222;
 }
 
-.container {
-    background: white;
-    width: 400px;
-    padding: 30px;
-    margin: 100px auto;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+/* --------- Auth Pages (Login/Register/Admin) --------- */
+.auth-body {
+  background: url('../static/bg.jpg') no-repeat center center/cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+header, footer {
+  text-align: center;
+  color: #fff;
+  background-color: rgba(0, 120, 212, 0.9);
+  padding: 10px 0;
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.auth-card {
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.95);
+  margin: 40px auto;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #0078d4;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+  font-weight: 500;
 }
 
 input {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 5px;
+  font-size: 15px;
 }
 
 button {
-    width: 95%;
-    padding: 10px;
-    background: #0078d4;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  margin-top: 15px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 button:hover {
-    background: #005ea0;
+  background-color: #005fa3;
 }
 
-.card {
-    background-color: #f9f9f9;
-    padding: 15px;
-    margin: 20px;
-    border-radius: 8px;
+a {
+  color: #0078d4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --------- Admin Dashboard --------- */
+.admin-body {
+  background: #f0f6ff;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0078d4;
+  color: white;
+  padding: 15px 30px;
+}
+
+.admin-main {
+  padding: 20px 40px;
+}
+
+.top-box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.controls input {
+  width: 250px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 8px;
 }
 
 .table-container {
-    overflow-x: auto;
-    width: 100%;
-    margin-top: 15px;
+  overflow-x: auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-height: 70vh;
 }
 
 table {
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 600px;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 15px;
 }
 
 th, td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
+  padding: 12px;
+  border: 1px solid #ccc;
 }
 
 th {
-    background-color: #0078d4;
-    color: white;
+  background-color: #0078d4;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
 tr:hover {
-    background-color: #e6f0ff;
+  background-color: #e8f3ff;
+}
+
+.admin-footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #0078d4;
+  color: white;
+  margin-top: 20px;
+}
+
+/* --------- Responsive Design --------- */
+@media (max-width: 768px) {
+  .auth-card {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .admin-main {
+    padding: 10px 20px;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .controls input {
+    width: 100%;
+  }
+}
+
+
+/* ---------- Sidebar (Fixed Vertical Menu) ---------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100%;
+  background-color: #0078d4;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 0;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- Sidebar Base ---------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100%;
+  background-color: #0078d4;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  z-index: 10;
+}
+
+.sidebar h2 {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 0;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- Toggle Button (Fixed Size) ---------- */
+.toggle-btn {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: #0078d4;
+  color: white;
+  font-size: 24px;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  z-index: 15;
+  width: auto;           
+  height: auto;
+  line-height: 1;
+}
+
+.toggle-btn:hover {
+  background: #005fa3;
+}
+
+
+/* ---------- Responsive Sidebar ---------- */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .toggle-btn {
+    display: block;
+  }
+
+  .main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+  }
+
+  .main-content.sidebar-open {
+    margin-left: 220px;
+  }
+}
+
+/* ---------- Student Dashboard Layout ---------- */
+.main-content {
+  margin-left: 280px;
+  padding: 30px 40px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0 20px 20px; /* Left margin restored */
+}
+
+.chart-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .chart-box canvas {
-  max-width: 600px;
-  max-height: 600px;
+  width: 600px !important;
+  height: 600px !important;
+}
+
+
+/* ---------- Admin Footer Fix ---------- */
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  height: auto;
+  background-color: #0078d4;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* ---------- Responsive Design Enhancements ---------- */
+@media (max-width: 1024px) {
+  .chart-box canvas {
+    width: 400px !important;
+    height: 400px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Sidebar behavior handled earlier */
+  .main-content {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  .card {
+    margin: 15px 0;
+    padding: 15px;
+  }
+
+  .chart-box canvas {
+    width: 300px !important;
+    height: 300px !important;
+  }
+
+  .card h2, .card h3, .card h4 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  input[type="number"],
+  input[type="text"],
+  input[type="file"],
+  button {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  .feedback {
+    text-align: center;
+  }
+
+  .main-content.sidebar-open {
+    margin-left: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-box canvas {
+    width: 250px !important;
+    height: 250px !important;
+  }
+
+  .toggle-btn {
+  padding: 5px 10px;
+  font-size: 20px;
+  border-radius: 5px;
+  }
+
+  .sidebar {
+    padding-top: 50px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  body {
+    font-size: 14px;
+  }
 }
