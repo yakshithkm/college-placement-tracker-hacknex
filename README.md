@@ -1,22 +1,31 @@
-🎓 College Placement Tracker
+# 🎓 College Placement Tracker
 
-A Flask-based web application that helps students and administrators track placement readiness efficiently.
+A **Flask-based web application** that helps students and administrators efficiently track placement readiness.
 
-🚀 Features
--Student registration and logi
--Resume analysis and automatic skill scorin
--Aptitude and certification trackin
--Real-time readiness score visualizatio
--Admin dashboard with search, top performers, and CSV expor
--Responsive and modern UI
+---
 
-🧰 Tech Stack
--Frontend: HTML, CSS, JavaScript (Chart.js)
--Backend: Python (Flask Framework)
--Database: SQLite
--Libraries: PyPDF2, python-docx
+## 🚀 Features
 
-⚙️ Setup Instructions
+- 🧑‍🎓 **Student registration and login**
+- 📄 **Resume analysis** and automatic skill scoring
+- 🧠 **Aptitude and certification tracking**
+- 📊 **Real-time readiness score visualization**
+- 🧑‍💼 **Admin dashboard** with search, top performers, and CSV export
+- 💻 **Responsive and modern UI**
+
+---
+
+## 🧰 Tech Stack
+
+**Frontend:** HTML, CSS, JavaScript (Chart.js)  
+**Backend:** Python (Flask Framework)  
+**Database:** SQLite  
+**Libraries:** `PyPDF2`, `python-docx`
+
+---
+
+## ⚙️ Setup Instructions
+
 # 1. Clone the repository
 git clone https://github.com/yakshithkm/college-placement-tracker-hacknex.git
 
@@ -28,6 +37,7 @@ pip install -r requirements.txt
 
 # 4. Run the Flask app
 python app.py
+
 
 Open your browser and go to: http://localhost:5000/
 
